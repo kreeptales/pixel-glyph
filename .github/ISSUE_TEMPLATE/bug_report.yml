@@ -1,0 +1,44 @@
+name: Bug report
+description: A glyph renders wrong, or the API does not behave as documented.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time. For rendering problems, a playground link is the fastest way to show us: draw the bitmap, set the pixel size, press "Copy link" and paste it below.
+  - type: input
+    id: playground
+    attributes:
+      label: Playground link
+      description: The shared link restores your bitmap, palette and pixel size.
+      placeholder: https://kreeptales-pixel-glyph.evilld94.workers.dev/?g=...#playground
+  - type: textarea
+    id: what
+    attributes:
+      label: What happens
+      description: What you see, and what you expected to see instead.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: entry
+    attributes:
+      label: Entry point
+      options:
+        - React (@kreeptales/pixel-glyph/react)
+        - Core (toSvg, toRuns, bitmapSize)
+        - Docs site
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser, OS and display scale
+      description: Rendering bugs often depend on the zoom level and the display scale.
+      placeholder: Chrome 130, Windows 11, 125% laptop display at 90% zoom
