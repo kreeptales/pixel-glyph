@@ -1,5 +1,8 @@
 # @kreeptales/pixel-glyph
 
+[![CI](https://github.com/kreeptales/pixel-glyph/actions/workflows/ci.yml/badge.svg)](https://github.com/kreeptales/pixel-glyph/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/%40kreeptales%2Fpixel-glyph)](https://www.npmjs.com/package/@kreeptales/pixel-glyph)
+
 Write a sprite as lines of text and get an SVG that stays sharp at any size,
 even when one bitmap pixel does not map to a whole number of screen pixels.
 Colors can come from CSS variables, so a glyph follows your theme.
@@ -156,6 +159,12 @@ npm run build     # dist/ (ES modules + declarations)
 npm run site:dev  # docs site with the playground, served from src/
 bash scripts/screenshots.sh   # refresh docs/screenshots from the deployed site
 ```
+
+## Contributing
+
+Issues and pull requests are welcome. [CONTRIBUTING.md](CONTRIBUTING.md)
+has the setup, the layout and the rules the project follows; security
+problems go through [SECURITY.md](SECURITY.md).
 
 ## License
 
