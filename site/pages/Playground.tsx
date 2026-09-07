@@ -79,6 +79,7 @@ export function Playground() {
             id="bitmap"
             className="field bitmap"
             value={text}
+            rows={Math.max(8, rowCount + 1)}
             onChange={(e) => setText(e.target.value)}
             spellCheck={false}
             autoCapitalize="off"
@@ -140,9 +141,9 @@ export function Playground() {
               {copyLink.copied ? t('linkCopied') : t('copyLink')}
             </button>
           </div>
-          <Code code={tab === 'jsx' ? toJsx(rows, palette, unit) : toSvg(rows, palette, { unit })} />
         </div>
       </div>
+      <Code code={tab === 'jsx' ? toJsx(rows, palette, unit) : toSvg(rows, palette, { unit })} />
     </>
   )
 }

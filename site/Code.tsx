@@ -27,10 +27,12 @@ export function CopyButton({ text }: { text: string }) {
 export function Code({ code }: { code: string }) {
   return (
     <div className="code">
+      <div className="code-bar">
+        <CopyButton text={code} />
+      </div>
       <pre>
         <code>{code}</code>
       </pre>
-      <CopyButton text={code} />
     </div>
   )
 }
