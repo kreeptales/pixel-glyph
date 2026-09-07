@@ -1,11 +1,14 @@
 # @kreeptales/pixel-glyph
 
-Crisp pixel art from bitmap strings. Draw a sprite as text, get an SVG that
-stays sharp at any scale, including fractional ones, with colors driven by CSS
-variables.
+Write a sprite as lines of text and get an SVG that stays sharp at any size,
+even when one bitmap pixel does not map to a whole number of screen pixels.
+Colors can come from CSS variables, so a glyph follows your theme.
 
 **Docs and playground:** https://kreeptales-pixel-glyph.evilld94.workers.dev/
 The site is available in English and Spanish (EN/ES button in the header).
+
+A bitmap is an array of strings. A dot is an empty pixel and any other
+character is a painted pixel whose color you choose in a palette:
 
 ```ts
 const heart = [
@@ -18,12 +21,13 @@ const heart = [
 ]
 ```
 
-No dependencies. A framework-free core plus a React component.
+The package has no dependencies. It ships a core that works without any
+framework and a React component built on top of it.
 
 ## Screenshots
 
-The docs site is built with the library: every graphic on it, titles included,
-is a `PixelGlyph`.
+The docs site is drawn with the library itself. Every image on it, titles
+included, is a `PixelGlyph`.
 
 | Intro: the same heart as box-shadow, PNG and PixelGlyph | Playground: edit, preview, copy, share |
 | --- | --- |
@@ -33,20 +37,24 @@ is a `PixelGlyph`.
 
 ## The problem
 
-Pixel art on the web usually goes one of three ways:
+There are three common ways to put pixel art on a web page, and each one has
+a catch:
 
-- **PNG with `image-rendering: pixelated`**: blurry or unevenly scaled as soon
-  as the device scale is not an integer (browser zoom at 80%, a laptop at 125%).
-- **`box-shadow` per pixel**: hairline seams between pixels at fractional
-  scales, and one shadow per pixel.
-- **Icon fonts or hand-written SVG paths**: not pixel art anymore, and colors
-  are baked in.
+- A PNG with `image-rendering: pixelated` looks fine at 100%, but as soon as
+  the browser zoom or the display scale is not a whole number (80% zoom, a
+  laptop at 125%), some pixels come out wider than others. Its colors are also
+  fixed in the file.
+- One `box-shadow` per pixel gives you CSS colors, but at those same scales thin
+  lines appear between pixels wherever an edge falls between two screen pixels.
+- Icon fonts and hand-drawn SVG paths scale well, but they are no longer pixel
+  art.
 
-This library renders the bitmap as an SVG of rectangles, one per horizontal run
-of same-colored pixels, with `shape-rendering: crispEdges`. Antialiasing is
-off, so every rect snaps to whole device pixels: no seams, no blur, the way a
-pixel game scales its sprites. Fills are set through `style`, so a palette can
-be `var(--ink)` and the glyph follows your theme.
+This library turns the bitmap into an SVG made of rectangles, one for each
+horizontal run of same-colored pixels, and turns antialiasing off with
+`shape-rendering: crispEdges`. Each rectangle then lands on whole screen
+pixels, so there are no gaps and no blur, the same way a pixel game scales
+its sprites. Colors are written as inline styles, so a palette entry can be
+`var(--ink)` and the glyph changes with your theme.
 
 ## Install
 
@@ -54,8 +62,8 @@ be `var(--ink)` and the glyph follows your theme.
 npm install @kreeptales/pixel-glyph
 ```
 
-React is an optional peer dependency (18 or newer), needed only for the
-`/react` entry.
+React 18 or newer is needed only if you use the `/react` entry. It is declared
+as an optional peer dependency.
 
 ## Usage
 
@@ -81,7 +89,7 @@ Props:
 | `className` | `string`                    |         |                                                              |
 | `style`     | `CSSProperties`             |         | Merged after the base styles, so it can override them.       |
 
-### Core (plain HTML, Vue, Svelte, server side)
+### Core, without a framework
 
 ```ts
 import { toSvg } from '@kreeptales/pixel-glyph'
@@ -89,14 +97,17 @@ import { toSvg } from '@kreeptales/pixel-glyph'
 element.innerHTML = toSvg(cross, palette, { unit: 4, label: 'Close' })
 ```
 
-`toSvg` returns the same markup the React component renders, as a string.
-`toRuns(bitmap, palette)` gives you the runs if you want to draw them yourself
-(canvas, another framework), and `bitmapSize(bitmap)` returns `{ cols, rows }`.
+`toSvg` returns the same markup the React component renders, as a string, so
+it works in plain HTML, Vue, Svelte, a server template or an image data URL.
+If you would rather draw the pixels yourself, on a canvas for example,
+`toRuns(bitmap, palette)` gives you the list of rectangles, and
+`bitmapSize(bitmap)` returns `{ cols, rows }`.
 
-### Scaling with a CSS variable
+### One pixel size for the whole interface
 
-Pass a string `unit` and the glyph is sized with `calc(cols * unit)`, so the
-whole UI can share one pixel size:
+The `unit` is the size of one bitmap pixel. A number means CSS pixels. A string
+is used as written, so you can point every glyph at one CSS variable and change
+the size of the whole interface in one place:
 
 ```css
 :root { --px: 2px; }
@@ -107,30 +118,32 @@ whole UI can share one pixel size:
 <PixelGlyph bitmap={icon} palette={palette} unit="var(--px)" />
 ```
 
-To scale one glyph differently, set the variable on it through `className`
-or `style`: the `calc` resolves against the SVG's own `--px`.
+To give one glyph a different size, set the variable on that glyph through
+`className` or `style`. The SVG reads its own `--px`.
 
-### Palettes as CSS variables
+### Palettes are CSS
 
-Palette values are any CSS color, and they are applied through `style`, so
-`var(--token)` works. Change the variables and the glyph changes with the
-theme; the bitmap never does.
+A palette value is any CSS color, and it is applied as an inline style on each
+rectangle, so `var(--token)` is resolved where the glyph appears. Change the
+variables and the colors change; the bitmap stays the same. `currentColor`
+works too, for icons that should match the text around them.
 
 ## Notes
 
-- The SVG is `display: inline-block` with default (baseline) vertical
-  alignment, so it sits in text and inside buttons exactly like an inline
-  image. `overflow: visible` lets rects wider than the box show, useful for
-  sprite overlays (a hat wider than the head).
-- Ragged bitmaps are accepted: the width is the longest row.
-- Adjacent same-colored pixels collapse into one rect, so a 16x16 icon is
-  typically 20 to 40 rects, not 256.
+- The SVG is `display: inline-block` with the default baseline alignment, so it
+  sits in a line of text or inside a button like an inline image would.
+- The SVG has `overflow: visible`, so a bitmap can draw outside its own box.
+  This is useful for overlays such as a hat that is wider than the head it sits
+  on.
+- Rows can have different lengths. The width of the glyph is the longest row.
+- Neighboring pixels of the same color become one rectangle, so a 16x16 icon
+  is usually 20 to 40 rectangles instead of 256.
 
 ## Built with pixel-glyph
 
 - [RunenBow](https://runenbow.com/), a portfolio shaped like a retro desktop
-  OS. Its icons, logo, cursors and mascot are bitmaps rendered by this library,
-  which was extracted from it.
+  OS. Its icons, logo and mascot are bitmaps drawn by this library, which
+  started as part of that project.
 - [The docs site](https://kreeptales-pixel-glyph.evilld94.workers.dev/) of this
   package: logo, icons, page titles (a 5x7 bitmap font) and the mascot.
 
