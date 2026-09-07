@@ -1,6 +1,6 @@
 {
   "name": "@kreeptales/pixel-glyph",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Crisp pixel-art glyphs from bitmap strings: one SVG rect per run, crispEdges, palettes as CSS variables, no seams at fractional scales.",
   "license": "MIT",
   "author": "KreepTales",
