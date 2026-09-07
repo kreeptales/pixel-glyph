@@ -66,7 +66,8 @@ scripts/        screenshot capture
   Add the failing test in `src/*.test.ts`, then make it pass.
 - Keep both entries small. The published tarball is about 8 kB; a change that
   doubles it needs a good reason in the pull request.
-- Public API changes go in `CHANGELOG.md` under "Unreleased".
+- `CHANGELOG.md` is generated from commit messages at release time, so
+  describe a public API change in the commit subject.
 
 ## Rules for the docs site
 
@@ -94,9 +95,19 @@ scripts/        screenshot capture
 
 ## Releasing (maintainers)
 
-1. Move the "Unreleased" entries in `CHANGELOG.md` under the new version.
-2. Bump `version` in `package.json` and commit: `chore: release 0.2.0`.
-3. `npm publish --access public --otp=<code>`. The `prepublishOnly` script
-   runs lint, tests and the build first.
-4. Tag and push: `git tag v0.2.0 && git push --tags`, then create the GitHub
-   release from the tag with the changelog entry as its notes.
+Releases are automated from the commit messages, so the prefixes matter:
+`fix:` bumps the patch version, `feat:` bumps the minor (while the package is
+below 1.0, `feat:` bumps the patch too), and a `!` after the type or a
+`BREAKING CHANGE:` footer bumps the major. `docs:`, `chore:`, `ci:`, `test:`
+and `refactor:` do not create a release on their own.
+
+1. Every push to `main` updates a pull request titled `chore: release x.y.z`
+   with the new version in `package.json` and the generated `CHANGELOG.md`
+   entry. Nothing is published while it stays open.
+2. Merging that pull request creates the tag `vx.y.z` and the GitHub release.
+3. The release triggers `publish.yml`, which runs lint, tests and the build
+   and publishes to npm with provenance through npm trusted publishing. No
+   token or one-time password is involved.
+
+To hold a release, leave the pull request open. To skip a commit from the
+notes, use a prefix that is hidden in `release-please-config.json`.
