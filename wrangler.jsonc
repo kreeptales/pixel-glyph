@@ -1,0 +1,12 @@
+// Cloudflare Workers static assets: the docs site built by `npm run site:build`.
+// The Git-connected Worker runs `npm run site:build` and then `npx wrangler deploy`, which reads this file.
+{
+  "$schema": "https://developers.cloudflare.com/workers/wrangler/config-schema.json",
+  "name": "kreeptales-pixel-glyph",
+  "compatibility_date": "2026-09-07",
+  "assets": {
+    "directory": "./site/dist",
+    // Single route with hash navigation: no SPA fallback needed, a missing path is a real 404.
+    "not_found_handling": "none"
+  }
+}
