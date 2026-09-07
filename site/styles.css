@@ -1,0 +1,458 @@
+@font-face {
+  font-family: 'Pixelify Sans';
+  src: url('/fonts/PixelifySans-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Departure Mono';
+  src: url('/fonts/DepartureMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+:root {
+  /* Palette: the 13 RunenBow colors, nothing outside this list */
+  --ink: #2a2438;
+  --ink-2: #5b5470;
+  --cream: #fff6e9;
+  --cream-2: #f0e2cf;
+  --cream-3: #cdbba5;
+  --lavender: #a99bea;
+  --lavender-2: #7f6fd1;
+  --mint: #8fe3c0;
+  --mint-2: #4fb894;
+  --salmon: #ff9c8a;
+  --salmon-2: #e56b58;
+  --sun: #ffd86b;
+  --sky: #7fc8f0;
+
+  /* Pixel unit: every glyph and every measure on the page is a multiple of it */
+  --px: 2px;
+
+  --font-ui: 'Pixelify Sans', monospace;
+  --font-mono: 'Departure Mono', monospace;
+
+  /* Theme: the bitmaps never change, only these */
+  --bg: var(--cream);
+  --fg: var(--ink);
+  --panel: var(--cream-2);
+  --panel-2: var(--cream-3);
+  --muted: var(--ink-2);
+  --line: var(--ink);
+  --accent: var(--salmon);
+  --code-bg: var(--ink);
+  --code-fg: var(--cream);
+  color-scheme: light;
+}
+
+/* Laptops get a slightly smaller pixel, like RunenBow. The scale selector writes an inline --px that overrides both. */
+@media (min-width: 768px) and (max-width: 1599px) {
+  :root {
+    --px: 1.75px;
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: var(--ink);
+  --fg: var(--cream);
+  --panel: var(--ink-2);
+  --panel-2: var(--lavender-2);
+  --muted: var(--cream-3);
+  --line: var(--cream-3);
+  --accent: var(--salmon);
+  --code-bg: var(--ink-2);
+  --code-fg: var(--cream);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-ui);
+  font-size: calc(9 * var(--px));
+  line-height: 1.5;
+}
+
+code,
+pre,
+kbd,
+textarea,
+input,
+select,
+button {
+  font-family: var(--font-mono);
+}
+
+a {
+  color: inherit;
+}
+
+p {
+  margin: 0 0 calc(4 * var(--px));
+}
+
+.site {
+  max-width: calc(420 * var(--px));
+  margin: 0 auto;
+  padding: 0 calc(8 * var(--px));
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: calc(4 * var(--px)) calc(8 * var(--px));
+  padding: calc(6 * var(--px)) 0;
+  border-bottom: calc(1 * var(--px)) solid var(--line);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(4 * var(--px));
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(2 * var(--px));
+}
+
+.nav a {
+  padding: calc(2 * var(--px)) calc(4 * var(--px));
+  border: calc(1 * var(--px)) solid transparent;
+  text-decoration: none;
+}
+
+.nav a[aria-current='page'] {
+  border-color: var(--line);
+  background: var(--panel);
+  box-shadow: calc(2 * var(--px)) calc(2 * var(--px)) 0 var(--line);
+}
+
+.tools {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: calc(3 * var(--px));
+}
+
+/* Controls */
+.btn,
+.select {
+  font: inherit;
+  font-family: var(--font-ui);
+  color: var(--fg);
+  background: var(--panel);
+  border: calc(1 * var(--px)) solid var(--line);
+  box-shadow: calc(2 * var(--px)) calc(2 * var(--px)) 0 var(--line);
+  padding: calc(2 * var(--px)) calc(4 * var(--px));
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(3 * var(--px));
+  line-height: 1;
+  min-height: calc(14 * var(--px));
+}
+
+.btn:active,
+.btn[aria-pressed='true'],
+.btn[aria-selected='true'] {
+  transform: translate(calc(2 * var(--px)), calc(2 * var(--px)));
+  box-shadow: none;
+}
+
+.btn[aria-selected='true'] {
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.btn:focus-visible,
+.select:focus-visible,
+.field:focus-visible {
+  outline: calc(1 * var(--px)) solid var(--accent);
+  outline-offset: calc(1 * var(--px));
+}
+
+.field {
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: calc(8 * var(--px));
+  color: var(--fg);
+  background: var(--bg);
+  border: calc(1 * var(--px)) solid var(--line);
+  padding: calc(2 * var(--px));
+  width: 100%;
+}
+
+.field[aria-invalid='true'] {
+  border-color: var(--salmon-2);
+  background: var(--salmon);
+  color: var(--ink);
+}
+
+/* Content */
+main {
+  padding: calc(10 * var(--px)) 0;
+}
+
+.title {
+  margin: calc(10 * var(--px)) 0 calc(4 * var(--px));
+  line-height: 0;
+}
+
+/* Titles are glyphs sized from --px; phones get a smaller pixel for them only, and max-width is the safety net. */
+.title > svg {
+  max-width: 100%;
+}
+
+@media (max-width: 767px) {
+  .title {
+    --px: 1px;
+  }
+}
+
+.hero {
+  padding: calc(8 * var(--px)) 0 calc(4 * var(--px));
+}
+
+.hero .title {
+  margin-top: 0;
+}
+
+.lead {
+  font-size: calc(11 * var(--px));
+  max-width: 36ch;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.panel {
+  background: var(--panel);
+  border: calc(1 * var(--px)) solid var(--line);
+  box-shadow: calc(2 * var(--px)) calc(2 * var(--px)) 0 var(--line);
+  padding: calc(5 * var(--px));
+  margin: 0 0 calc(6 * var(--px));
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 calc(6 * var(--px));
+}
+
+.list li {
+  display: flex;
+  gap: calc(3 * var(--px));
+  align-items: flex-start;
+  margin-bottom: calc(2 * var(--px));
+}
+
+.list li > svg {
+  margin-top: calc(3 * var(--px));
+}
+
+.code {
+  position: relative;
+  background: var(--code-bg);
+  color: var(--code-fg);
+  border: calc(1 * var(--px)) solid var(--line);
+  padding: calc(4 * var(--px));
+  margin: 0 0 calc(4 * var(--px));
+  overflow-x: auto;
+}
+
+.code pre {
+  margin: 0;
+  font-size: calc(8 * var(--px));
+  line-height: 1.4;
+}
+
+.code .copy {
+  position: absolute;
+  top: calc(2 * var(--px));
+  right: calc(2 * var(--px));
+  color: var(--ink);
+  background: var(--cream-2);
+  border-color: var(--ink);
+  box-shadow: calc(2 * var(--px)) calc(2 * var(--px)) 0 var(--ink);
+}
+
+.compare {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(calc(110 * var(--px)), 1fr));
+  gap: calc(6 * var(--px));
+  margin-bottom: calc(6 * var(--px));
+}
+
+.sample {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(70 * var(--px));
+  padding: calc(6 * var(--px));
+  background: var(--bg);
+  border: calc(1 * var(--px)) solid var(--line);
+  margin-bottom: calc(2 * var(--px));
+  overflow: hidden;
+}
+
+.caption {
+  font-size: calc(8 * var(--px));
+  color: var(--muted);
+}
+
+.example {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: calc(4 * var(--px));
+  align-items: start;
+  margin-bottom: calc(8 * var(--px));
+}
+
+.example .sample {
+  min-height: calc(40 * var(--px));
+  min-width: calc(40 * var(--px));
+}
+
+@media (max-width: 767px) {
+  .example {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Playground */
+.playground {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(6 * var(--px));
+  align-items: start;
+}
+
+/* Grid tracks default to min-width: auto, so a wide code block would squeeze the editor column. */
+.playground > div,
+.example > div {
+  min-width: 0;
+}
+
+@media (max-width: 767px) {
+  .playground {
+    grid-template-columns: 1fr;
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(2 * var(--px));
+  align-items: center;
+  margin-bottom: calc(3 * var(--px));
+}
+
+.row label {
+  margin-right: auto;
+}
+
+textarea.bitmap {
+  min-height: calc(100 * var(--px));
+  line-height: 1.15;
+  letter-spacing: 0.12em;
+  white-space: pre;
+  resize: vertical;
+}
+
+.palette {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: calc(2 * var(--px)) calc(3 * var(--px));
+  align-items: center;
+  margin: calc(3 * var(--px)) 0;
+}
+
+.swatch {
+  width: calc(10 * var(--px));
+  height: calc(10 * var(--px));
+  border: calc(1 * var(--px)) solid var(--line);
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.swatch::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.swatch::-webkit-color-swatch {
+  border: 0;
+}
+
+.char {
+  font-family: var(--font-mono);
+  font-size: calc(9 * var(--px));
+  min-width: 1.5ch;
+  text-align: center;
+}
+
+.preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100 * var(--px));
+  background: var(--bg);
+  border: calc(1 * var(--px)) solid var(--line);
+  overflow: auto;
+  padding: calc(4 * var(--px));
+  margin-bottom: calc(3 * var(--px));
+}
+
+input[type='range'] {
+  flex: 1;
+  min-width: calc(40 * var(--px));
+  accent-color: var(--salmon-2);
+}
+
+.stats {
+  font-family: var(--font-mono);
+  font-size: calc(7 * var(--px));
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(2 * var(--px)) calc(5 * var(--px));
+  margin-bottom: calc(3 * var(--px));
+}
+
+.tabs {
+  display: flex;
+  gap: calc(2 * var(--px));
+  margin-bottom: calc(3 * var(--px));
+}
+
+/* Footer */
+.footer {
+  border-top: calc(1 * var(--px)) solid var(--line);
+  padding: calc(6 * var(--px)) 0 calc(10 * var(--px));
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(4 * var(--px)) calc(8 * var(--px));
+  color: var(--muted);
+  font-size: calc(8 * var(--px));
+}
+
+.footer nav {
+  display: flex;
+  gap: calc(4 * var(--px));
+}
