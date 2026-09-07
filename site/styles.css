@@ -298,16 +298,25 @@ main {
   margin-bottom: calc(6 * var(--px));
 }
 
+/* Samples and the preview are a cream canvas in both themes: demo palettes draw ink outlines,
+   which would vanish on the dark background. The themed example opts out with .themed. */
 .sample {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: calc(70 * var(--px));
   padding: calc(6 * var(--px));
-  background: var(--bg);
-  border: calc(1 * var(--px)) solid var(--line);
+  background: var(--cream);
+  color: var(--ink);
+  border: calc(1 * var(--px)) solid var(--ink);
   margin-bottom: calc(2 * var(--px));
   overflow: hidden;
+}
+
+.sample.themed {
+  background: var(--bg);
+  color: var(--fg);
+  border-color: var(--line);
 }
 
 .caption {
@@ -411,8 +420,9 @@ textarea.bitmap {
   align-items: center;
   justify-content: center;
   min-height: calc(100 * var(--px));
-  background: var(--bg);
-  border: calc(1 * var(--px)) solid var(--line);
+  background: var(--cream);
+  color: var(--ink);
+  border: calc(1 * var(--px)) solid var(--ink);
   overflow: auto;
   padding: calc(4 * var(--px));
   margin-bottom: calc(3 * var(--px));

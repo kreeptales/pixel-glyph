@@ -82,7 +82,7 @@ element.innerHTML = toSvg(cross, palette, { unit: 8, label: 'Close' })`}
 
 <PixelGlyph bitmap={cross} palette={themed} unit={8} />`}
         />
-        <div className="sample">
+        <div className="sample themed">
           <PixelGlyph bitmap={cross} palette={{ '#': 'var(--fg)', r: 'var(--accent)' }} unit={8} />
         </div>
       </div>
