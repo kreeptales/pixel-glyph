@@ -12,7 +12,7 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - uses: googleapis/release-please-action@v4
+      - uses: googleapis/release-please-action@v5
         with:
           # A personal token, so the release pull request triggers the CI workflow
           # (pull requests opened with the default token do not run workflows).
