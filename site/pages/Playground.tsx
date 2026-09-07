@@ -7,7 +7,17 @@ import { T, useT, type Key } from '../i18n'
 import { PRESETS, type Drawing } from '../presets'
 import { readShared, writeShared } from '../share'
 
-const HEX = /^#[0-9a-f]{6}$/i
+/** Resolves any CSS color (a `var(--token)`, a name, an rgb()) to the hex the native color input needs. */
+function toHex(color: string): string | null {
+  const probe = document.createElement('span')
+  probe.style.color = color
+  if (!probe.style.color) return null
+  document.body.append(probe)
+  const rgb = getComputedStyle(probe).color.match(/\d+/g)
+  probe.remove()
+  if (!rgb || rgb.length < 3) return null
+  return `#${rgb.slice(0, 3).map((n) => Number(n).toString(16).padStart(2, '0')).join('')}`
+}
 
 function toJsx(rows: readonly string[], palette: Palette, unit: number): string {
   return `import { PixelGlyph } from '@kreeptales/pixel-glyph/react'
@@ -145,8 +155,7 @@ function PaletteRow({ ch, value, onChange }: { ch: string; value: string; onChan
       <input
         type="color"
         className="swatch"
-        value={HEX.test(value) ? value : '#2a2438'}
-        style={{ background: value || 'transparent' }}
+        value={toHex(value) ?? '#000000'}
         onChange={(e) => onChange(e.target.value)}
         aria-label={t('playground.pick', { ch })}
       />
