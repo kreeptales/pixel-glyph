@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import { PixelGlyph } from '@kreeptales/pixel-glyph/react'
 import { CHECK, COPY, MONO } from './bitmaps/glyphs'
 import { useT } from './i18n'
@@ -24,10 +24,11 @@ export function CopyButton({ text }: { text: string }) {
   )
 }
 
-export function Code({ code }: { code: string }) {
+export function Code({ code, toolbar }: { code: string; toolbar?: ReactNode }) {
   return (
     <div className="code">
       <div className="code-bar">
+        {toolbar}
         <CopyButton text={code} />
       </div>
       <pre>

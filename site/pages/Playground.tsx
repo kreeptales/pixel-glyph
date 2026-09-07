@@ -128,7 +128,12 @@ export function Playground() {
             <span>{t('playground.rects', { n: runs.length, p: painted ? Math.round((1 - runs.length / painted) * 100) : 0 })}</span>
           </div>
 
-          <div className="row">
+        </div>
+      </div>
+      <Code
+        code={tab === 'jsx' ? toJsx(rows, palette, unit) : toSvg(rows, palette, { unit })}
+        toolbar={
+          <>
             <div className="tabs" role="tablist">
               <button type="button" role="tab" className="btn" aria-selected={tab === 'jsx'} onClick={() => setTab('jsx')}>
                 JSX
@@ -140,10 +145,9 @@ export function Playground() {
             <button type="button" className="btn" onClick={copyLink.copy}>
               {copyLink.copied ? t('linkCopied') : t('copyLink')}
             </button>
-          </div>
-        </div>
-      </div>
-      <Code code={tab === 'jsx' ? toJsx(rows, palette, unit) : toSvg(rows, palette, { unit })} />
+          </>
+        }
+      />
     </>
   )
 }
