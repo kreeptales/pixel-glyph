@@ -4,6 +4,8 @@ Crisp pixel art from bitmap strings. Draw a sprite as text, get an SVG that
 stays sharp at any scale, including fractional ones, with colors driven by CSS
 variables.
 
+**Docs and playground:** https://kreeptales-pixel-glyph.evilld94.workers.dev/
+
 ```ts
 const heart = [
   '.##.##.',
@@ -16,6 +18,17 @@ const heart = [
 ```
 
 No dependencies. A framework-free core plus a React component.
+
+## Screenshots
+
+The docs site is built with the library: every graphic on it, titles included,
+is a `PixelGlyph`.
+
+| Intro: the same heart as box-shadow, PNG and PixelGlyph | Playground: edit, preview, copy, share |
+| --- | --- |
+| ![Intro page](docs/screenshots/intro.png) | ![Playground](docs/screenshots/playground.png) |
+
+<img src="docs/screenshots/mobile.png" alt="The intro page on a phone, light theme" width="260">
 
 ## The problem
 
@@ -112,12 +125,22 @@ theme; the bitmap never does.
 - Adjacent same-colored pixels collapse into one rect, so a 16x16 icon is
   typically 20 to 40 rects, not 256.
 
+## Built with pixel-glyph
+
+- [RunenBow](https://runenbow.com/), a portfolio shaped like a retro desktop
+  OS. Its icons, logo, cursors and mascot are bitmaps rendered by this library,
+  which was extracted from it.
+- [The docs site](https://kreeptales-pixel-glyph.evilld94.workers.dev/) of this
+  package: logo, icons, page titles (a 5x7 bitmap font) and the mascot.
+
 ## Development
 
 ```bash
 npm test          # vitest
 npm run lint      # oxlint
 npm run build     # dist/ (ES modules + declarations)
+npm run site:dev  # docs site with the playground, served from src/
+bash scripts/screenshots.sh   # refresh docs/screenshots from the deployed site
 ```
 
 ## License
