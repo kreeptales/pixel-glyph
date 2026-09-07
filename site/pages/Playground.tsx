@@ -3,6 +3,7 @@ import { bitmapSize, toRuns, toSvg, type Palette } from '@kreeptales/pixel-glyph
 import { PixelGlyph } from '@kreeptales/pixel-glyph/react'
 import { BitmapText } from '../BitmapText'
 import { Code } from '../Code'
+import { T, useT, type Key } from '../i18n'
 import { PRESETS, type Drawing } from '../presets'
 import { readShared, writeShared } from '../share'
 
@@ -20,6 +21,7 @@ const palette = ${JSON.stringify(palette, null, 2)}
 }
 
 export function Playground() {
+  const t = useT()
   const [initial] = useState<Drawing>(() => readShared() ?? PRESETS.Rune)
   const [text, setText] = useState(initial.bitmap.join('\n'))
   const [palette, setPalette] = useState<Palette>(initial.palette)
@@ -47,20 +49,19 @@ export function Playground() {
   return (
     <>
       <h2 className="title">
-        <BitmapText text="PLAYGROUND" scale={2} />
+        <BitmapText text={t('playground.title')} scale={2} />
       </h2>
       <p>
-        Type a bitmap, one row per line, any character but <code>.</code> is a pixel. Give each character a color:
-        a literal or a <code>var(--token)</code> from this page. The link updates as you draw, so copy it to share.
+        <T k="playground.text" />
       </p>
 
       <div className="playground">
         <div>
           <div className="row">
-            <label htmlFor="bitmap">Bitmap</label>
+            <label htmlFor="bitmap">{t('playground.bitmap')}</label>
             {Object.entries(PRESETS).map(([name, drawing]) => (
               <button key={name} type="button" className="btn" onClick={() => load(drawing)}>
-                {name}
+                {t(`preset.${name}` as Key)}
               </button>
             ))}
           </div>
@@ -75,27 +76,23 @@ export function Playground() {
           />
 
           <div className="row">
-            <label>Palette</label>
+            <label>{t('playground.palette')}</label>
             {missing.length > 0 && (
-              <span className="muted">
-                No color for: {missing.map((ch) => `'${ch}'`).join(' ')}
-              </span>
+              <span className="muted">{t('playground.missing', { chars: missing.map((ch) => `'${ch}'`).join(' ') })}</span>
             )}
           </div>
           <div className="palette">
-            {chars.map((ch) => {
-              const value = palette[ch] ?? ''
-              return (
-                <PaletteRow key={ch} ch={ch} value={value} onChange={(color) => setColor(ch, color)} />
-              )
-            })}
+            {chars.map((ch) => (
+              <PaletteRow key={ch} ch={ch} value={palette[ch] ?? ''} onChange={(color) => setColor(ch, color)} />
+            ))}
           </div>
         </div>
 
         <div>
           <div className="row">
             <label htmlFor="unit">
-              Unit {unit}px <span className="muted">({+(unit * devicePixelRatio).toFixed(2)} device px per pixel)</span>
+              {t('playground.unit', { unit })}{' '}
+              <span className="muted">{t('playground.devicePx', { n: +(unit * devicePixelRatio).toFixed(2) })}</span>
             </label>
           </div>
           <div className="row">
@@ -110,16 +107,14 @@ export function Playground() {
             />
           </div>
           <div className="preview">
-            <PixelGlyph bitmap={rows} palette={palette} unit={unit} label="Your drawing" />
+            <PixelGlyph bitmap={rows} palette={palette} unit={unit} label={t('playground.preview')} />
           </div>
           <div className="stats">
             <span>
               {cols} x {rowCount}
             </span>
-            <span>{painted} pixels painted</span>
-            <span>
-              {runs.length} rects ({painted ? Math.round((1 - runs.length / painted) * 100) : 0}% fewer than one per pixel)
-            </span>
+            <span>{t('playground.painted', { n: painted })}</span>
+            <span>{t('playground.rects', { n: runs.length, p: painted ? Math.round((1 - runs.length / painted) * 100) : 0 })}</span>
           </div>
 
           <div className="row">
@@ -132,7 +127,7 @@ export function Playground() {
               </button>
             </div>
             <button type="button" className="btn" onClick={copyLink.copy}>
-              {copyLink.copied ? 'Link copied' : 'Copy link'}
+              {copyLink.copied ? t('linkCopied') : t('copyLink')}
             </button>
           </div>
           <Code code={tab === 'jsx' ? toJsx(rows, palette, unit) : toSvg(rows, palette, { unit })} />
@@ -143,6 +138,7 @@ export function Playground() {
 }
 
 function PaletteRow({ ch, value, onChange }: { ch: string; value: string; onChange: (color: string) => void }) {
+  const t = useT()
   return (
     <>
       <span className="char">{ch}</span>
@@ -152,14 +148,14 @@ function PaletteRow({ ch, value, onChange }: { ch: string; value: string; onChan
         value={HEX.test(value) ? value : '#2a2438'}
         style={{ background: value || 'transparent' }}
         onChange={(e) => onChange(e.target.value)}
-        aria-label={`Pick a color for '${ch}'`}
+        aria-label={t('playground.pick', { ch })}
       />
       <input
         className="field"
         value={value}
-        placeholder="var(--ink) or #2a2438"
+        placeholder={t('playground.placeholder')}
         aria-invalid={value ? undefined : true}
-        aria-label={`Color for '${ch}'`}
+        aria-label={t('playground.color', { ch })}
         onChange={(e) => onChange(e.target.value)}
       />
     </>

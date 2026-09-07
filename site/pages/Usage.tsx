@@ -3,15 +3,17 @@ import { toSvg } from '@kreeptales/pixel-glyph'
 import { PixelGlyph } from '@kreeptales/pixel-glyph/react'
 import { BitmapText } from '../BitmapText'
 import { Code } from '../Code'
+import { T, useT } from '../i18n'
 
 const palette = { '#': 'var(--ink)', r: 'var(--salmon)' }
 const cross = ['.#.', '#r#', '.#.']
 
 export function Usage() {
+  const t = useT()
   return (
     <>
       <h2 className="title">
-        <BitmapText text="REACT" scale={2} />
+        <BitmapText text={t('usage.react.title')} scale={2} />
       </h2>
       <div className="example">
         <Code
@@ -27,12 +29,11 @@ const cross = ['.#.', '#r#', '.#.']
         </div>
       </div>
       <p>
-        Without a label the SVG is hidden from assistive technology. With one it becomes an image with that name.
-        <code> className</code> and <code>style</code> are passed through.
+        <T k="usage.react.text" />
       </p>
 
       <h2 className="title">
-        <BitmapText text="CORE, NO FRAMEWORK" scale={2} />
+        <BitmapText text={t('usage.core.title')} scale={2} />
       </h2>
       <div className="example">
         <Code
@@ -43,12 +44,11 @@ element.innerHTML = toSvg(cross, palette, { unit: 8, label: 'Close' })`}
         <div className="sample" dangerouslySetInnerHTML={{ __html: toSvg(cross, palette, { unit: 8, label: 'Close' }) }} />
       </div>
       <p>
-        The same markup the component renders, as a string: plain HTML, Vue, Svelte, server templates or an image
-        data URL. <code>toRuns</code> gives you the rectangles if you want to draw them yourself.
+        <T k="usage.core.text" />
       </p>
 
       <h2 className="title">
-        <BitmapText text="ONE UNIT FOR THE WHOLE UI" scale={2} />
+        <BitmapText text={t('usage.unit.title')} scale={2} />
       </h2>
       <div className="example">
         <Code
@@ -61,16 +61,20 @@ element.innerHTML = toSvg(cross, palette, { unit: 8, label: 'Close' })`}
         />
         <div className="sample">
           <PixelGlyph bitmap={cross} palette={palette} unit="var(--px)" />
-          <PixelGlyph bitmap={cross} palette={palette} unit="var(--px)" style={{ '--px': 'calc(3 * var(--px))', marginLeft: 16 } as CSSProperties} />
+          <PixelGlyph
+            bitmap={cross}
+            palette={palette}
+            unit="var(--px)"
+            style={{ '--px': 'calc(3 * var(--px))', marginLeft: 16 } as CSSProperties}
+          />
         </div>
       </div>
       <p>
-        A string unit is used as written and the glyph is sized with <code>calc(cols * unit)</code>. This site and
-        RunenBow size everything from one <code>--px</code>, which is what the scale selector in the header changes.
+        <T k="usage.unit.text" />
       </p>
 
       <h2 className="title">
-        <BitmapText text="PALETTES ARE CSS" scale={2} />
+        <BitmapText text={t('usage.palette.title')} scale={2} />
       </h2>
       <div className="example">
         <Code
@@ -83,8 +87,7 @@ element.innerHTML = toSvg(cross, palette, { unit: 8, label: 'Close' })`}
         </div>
       </div>
       <p>
-        Fills go through <code>style</code>, so variables resolve where the glyph is rendered. Toggle the theme in the
-        header: the bitmap stays, the colors follow. <code>currentColor</code> works too, for icons that follow text.
+        <T k="usage.palette.text" />
       </p>
     </>
   )

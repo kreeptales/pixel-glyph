@@ -3,11 +3,13 @@ import { bitmapSize, toRuns, type Bitmap, type Palette } from '@kreeptales/pixel
 import { PixelGlyph } from '@kreeptales/pixel-glyph/react'
 import { BULLET, MONO } from '../bitmaps/glyphs'
 import { BitmapText } from '../BitmapText'
+import { T, useT, type Key } from '../i18n'
 import { HEART } from '../presets'
 
 // Literal colors so the canvas renderer gets the same palette as the other two.
 const HEART_HEX: Palette = { '#': '#2a2438', s: '#ff9c8a', c: '#fff6e9' }
 const UNIT = 12.5
+const BENEFITS: Key[] = ['intro.get.1', 'intro.get.2', 'intro.get.3', 'intro.get.4', 'intro.get.5', 'intro.get.6']
 
 /** One box-shadow per pixel: the classic CSS trick, and where the seams come from. */
 function BoxShadowPixels({ bitmap, palette, unit }: { bitmap: Bitmap; palette: Palette; unit: number }) {
@@ -40,76 +42,64 @@ function PngPixels({ bitmap, palette, unit }: { bitmap: Bitmap; palette: Palette
 }
 
 export function Intro() {
+  const t = useT()
   return (
     <>
       <section className="hero">
         <h1 className="title">
           <BitmapText text="PIXEL GLYPH" scale={3} />
         </h1>
-        <p className="lead">
-          Draw a sprite as text. Get an SVG that stays sharp at any scale, with colors that follow your CSS variables.
-        </p>
+        <p className="lead">{t('intro.lead')}</p>
         <p>
           <a className="btn" href="#playground">
-            Open the playground
+            {t('intro.open')}
           </a>
         </p>
       </section>
 
       <h2 className="title">
-        <BitmapText text="SAME BITMAP, THREE RENDERERS" scale={2} />
+        <BitmapText text={t('intro.compare.title')} scale={2} />
       </h2>
-      <p>
-        The heart below is drawn three ways at {UNIT} CSS pixels per bitmap pixel, a fractional size on purpose. Zoom
-        your browser to 90% or 110% and look at the edges and the gaps between pixels.
-      </p>
+      <p>{t('intro.compare.text', { unit: UNIT })}</p>
       <div className="compare">
         <div>
           <div className="sample">
             <BoxShadowPixels bitmap={HEART.bitmap} palette={HEART_HEX} unit={UNIT} />
           </div>
-          <p className="caption">box-shadow per pixel. Hairline seams appear wherever an edge lands between device pixels.</p>
+          <p className="caption">{t('intro.compare.shadow')}</p>
         </div>
         <div>
           <div className="sample">
             <PngPixels bitmap={HEART.bitmap} palette={HEART_HEX} unit={UNIT} />
           </div>
-          <p className="caption">PNG with image-rendering: pixelated. Uneven pixel widths and no CSS colors.</p>
+          <p className="caption">{t('intro.compare.png')}</p>
         </div>
         <div>
           <div className="sample">
-            <PixelGlyph bitmap={HEART.bitmap} palette={HEART_HEX} unit={UNIT} label="Heart" />
+            <PixelGlyph bitmap={HEART.bitmap} palette={HEART_HEX} unit={UNIT} label={t('preset.Heart')} />
           </div>
-          <p className="caption">PixelGlyph: SVG rects with crispEdges. Every rect snaps to whole device pixels, no seams.</p>
+          <p className="caption">{t('intro.compare.svg')}</p>
         </div>
       </div>
 
       <h2 className="title">
-        <BitmapText text="WHAT YOU GET" scale={2} />
+        <BitmapText text={t('intro.get.title')} scale={2} />
       </h2>
       <ul className="list">
-        {[
-          'No seams and no blur at fractional device scales: browser zoom, 125% laptops, retina.',
-          'Palettes are CSS: a character maps to any color, var(--token) included. Switch the theme in the header.',
-          'One rect per horizontal run, not one per pixel. A 16x16 icon is a few dozen rects.',
-          'A framework-free core (toSvg, toRuns) and a React component with the same output.',
-          'Bitmaps live in code: versioned, diffable, reviewable, and copied around as strings.',
-          'Zero dependencies. React is an optional peer.',
-        ].map((line) => (
-          <li key={line}>
+        {BENEFITS.map((key) => (
+          <li key={key}>
             <PixelGlyph bitmap={BULLET} palette={MONO} unit="var(--px)" />
-            <span>{line}</span>
+            <span>
+              <T k={key} />
+            </span>
           </li>
         ))}
       </ul>
 
       <h2 className="title">
-        <BitmapText text="SEE IT SCALE" scale={2} />
+        <BitmapText text={t('intro.scale.title')} scale={2} />
       </h2>
-      <p>
-        Change the scale in the header. The whole site, titles included, is sized from one CSS variable, and every
-        glyph stays crisp because it is a PixelGlyph. That is the entire trick.
-      </p>
+      <p>{t('intro.scale.text')}</p>
     </>
   )
 }

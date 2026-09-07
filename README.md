@@ -5,6 +5,7 @@ stays sharp at any scale, including fractional ones, with colors driven by CSS
 variables.
 
 **Docs and playground:** https://kreeptales-pixel-glyph.evilld94.workers.dev/
+The site is available in English and Spanish (EN/ES button in the header).
 
 ```ts
 const heart = [

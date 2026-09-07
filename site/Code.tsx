@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { PixelGlyph } from '@kreeptales/pixel-glyph/react'
 import { CHECK, COPY, MONO } from './bitmaps/glyphs'
+import { useT } from './i18n'
 
 export function useCopy(): [copied: boolean, copy: (text: string) => Promise<void>] {
   const [copied, setCopied] = useState(false)
@@ -12,12 +13,13 @@ export function useCopy(): [copied: boolean, copy: (text: string) => Promise<voi
   return [copied, copy]
 }
 
-export function CopyButton({ text, label = 'Copy' }: { text: string; label?: string }) {
+export function CopyButton({ text }: { text: string }) {
+  const t = useT()
   const [copied, copy] = useCopy()
   return (
     <button type="button" className="btn copy" onClick={() => copy(text)}>
       <PixelGlyph bitmap={copied ? CHECK : COPY} palette={MONO} unit="var(--px)" />
-      {copied ? 'Copied' : label}
+      {copied ? t('copied') : t('copy')}
     </button>
   )
 }

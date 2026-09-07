@@ -1,21 +1,23 @@
 import { BitmapText } from '../BitmapText'
 import { Code } from '../Code'
+import { useT } from '../i18n'
 
 export function Install() {
+  const t = useT()
   return (
     <>
       <h2 className="title">
-        <BitmapText text="INSTALL" scale={2} />
+        <BitmapText text={t('install.title')} scale={2} />
       </h2>
       <Code code="npm install @kreeptales/pixel-glyph" />
-      <p>Two entry points. The core has no dependencies; the React entry needs React 18 or newer as a peer.</p>
+      <p>{t('install.text')}</p>
       <Code
         code={`import { toSvg, toRuns, bitmapSize } from '@kreeptales/pixel-glyph'
 import type { Bitmap, Palette } from '@kreeptales/pixel-glyph'
 
 import { PixelGlyph } from '@kreeptales/pixel-glyph/react'`}
       />
-      <p className="muted">ES modules with TypeScript declarations. The package ships dist/ only, about 1 kB gzipped per entry.</p>
+      <p className="muted">{t('install.note')}</p>
     </>
   )
 }
