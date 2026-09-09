@@ -10,6 +10,7 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: '@kreeptales/pixel-glyph/react', replacement: here('../src/react.tsx') },
+      { find: '@kreeptales/pixel-glyph/font', replacement: here('../src/font.ts') },
       { find: '@kreeptales/pixel-glyph', replacement: here('../src/index.ts') },
     ],
   },

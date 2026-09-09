@@ -79,8 +79,8 @@ const DICT = {
 
   'install.title': { en: 'INSTALL', es: 'INSTALACIÓN' },
   'install.text': {
-    en: 'The package has two entry points. The core has no dependencies. The React entry needs React 18 or newer installed in your project.',
-    es: 'El paquete tiene dos puntos de entrada. El núcleo no tiene dependencias. La entrada de React necesita React 18 o superior instalado en tu proyecto.',
+    en: 'The package has three entry points: the core, the React component and the bitmap font. None of them has dependencies; the React entry needs React 18 or newer installed in your project.',
+    es: 'El paquete tiene tres puntos de entrada: el núcleo, el componente React y la fuente bitmap. Ninguno tiene dependencias; la entrada de React necesita React 18 o superior instalado en tu proyecto.',
   },
   'install.note': {
     en: 'Ships as ES modules with TypeScript types. Only the dist/ folder is published, about 1 kB gzipped per entry.',
@@ -101,6 +101,11 @@ const DICT = {
   'usage.unit.text': {
     en: 'The `unit` is the size of one bitmap pixel. A number means pixels. A string such as `var(--px)` is used as written, so the whole interface can share one pixel size and change it in one place. That is what the scale selector in the header does.',
     es: 'La `unit` es el tamaño de un píxel del bitmap. Un número son píxeles. Un string como `var(--px)` se usa tal cual, así que toda la interfaz puede compartir un mismo tamaño de píxel y cambiarlo en un solo lugar. Eso es lo que hace el selector de escala de la cabecera.',
+  },
+  'usage.font.title': { en: 'A BITMAP FONT', es: 'UNA FUENTE BITMAP' },
+  'usage.font.text': {
+    en: 'Every title on this site is drawn with this font: `textToBitmap` turns a line of text into a bitmap, so a heading scales with the same unit as your icons. Capitals, the eñe, digits and basic punctuation; lowercase becomes capitals and accents are dropped, so pass the original text as the `label`.',
+    es: 'Todos los títulos de este sitio están dibujados con esta fuente: `textToBitmap` convierte una línea de texto en un bitmap, así que un encabezado escala con la misma unidad que tus iconos. Mayúsculas, la eñe, dígitos y puntuación básica; las minúsculas pasan a mayúsculas y las tildes se omiten, así que pasa el texto original como `label`.',
   },
   'usage.palette.title': { en: 'PALETTES ARE CSS', es: 'LAS PALETAS SON CSS' },
   'usage.palette.text': {

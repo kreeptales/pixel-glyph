@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import { toSvg } from '@kreeptales/pixel-glyph'
+import { textToBitmap } from '@kreeptales/pixel-glyph/font'
 import { PixelGlyph } from '@kreeptales/pixel-glyph/react'
 import { BitmapText } from '../BitmapText'
 import { Code } from '../Code'
@@ -71,6 +72,23 @@ element.innerHTML = toSvg(cross, palette, { unit: 8, label: 'Close' })`}
       </div>
       <p>
         <T k="usage.unit.text" />
+      </p>
+
+      <h2 className="title">
+        <BitmapText text={t('usage.font.title')} scale={2} />
+      </h2>
+      <div className="example">
+        <Code
+          code={`import { textToBitmap } from '@kreeptales/pixel-glyph/font'
+
+<PixelGlyph bitmap={textToBitmap('Hello')} palette={{ '#': 'currentColor' }} unit={3} label="Hello" />`}
+        />
+        <div className="sample">
+          <PixelGlyph bitmap={textToBitmap('Hello')} palette={{ '#': 'currentColor' }} unit={3} label="Hello" />
+        </div>
+      </div>
+      <p>
+        <T k="usage.font.text" />
       </p>
 
       <h2 className="title">

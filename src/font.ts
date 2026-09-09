@@ -1,12 +1,14 @@
-import type { Bitmap } from '@kreeptales/pixel-glyph'
+import type { Bitmap } from './bitmap'
 
-/**
- * A 5x7 dot-matrix font for the page titles: capitals, digits and basic
- * punctuation. Narrow glyphs use fewer columns; BitmapText adds a one-pixel
- * gap between letters. Unknown characters fall back to '?'.
- */
+/** Every glyph is this many rows tall. */
 export const FONT_HEIGHT = 7
 
+/**
+ * A 5x7 dot-matrix font: capital letters, the eñe, digits and basic
+ * punctuation. Narrow glyphs use fewer columns. Lowercase is drawn as
+ * capitals and accents are dropped, because a 7-row cell has no room for
+ * them; keep the original text for the accessible label.
+ */
 export const FONT: Record<string, Bitmap> = {
   A: ['.###.', '#...#', '#...#', '#####', '#...#', '#...#', '#...#'],
   B: ['####.', '#...#', '#...#', '####.', '#...#', '#...#', '####.'],
@@ -60,4 +62,24 @@ export const FONT: Record<string, Bitmap> = {
   '&': ['.##..', '#..#.', '#..#.', '.##..', '#.#.#', '#..#.', '.##.#'],
   '#': ['.#.#.', '.#.#.', '#####', '.#.#.', '#####', '.#.#.', '.#.#.'],
   '@': ['.###.', '#...#', '#.###', '#.#.#', '#.###', '#....', '.####'],
+}
+
+export type TextOptions = {
+  /** Empty columns between glyphs. Default 1. */
+  gap?: number
+}
+
+/** The glyph for one character: as is, then without its accent, then '?'. */
+function glyphOf(ch: string): Bitmap {
+  return FONT[ch] ?? FONT[ch.normalize('NFD').replace(/\p{M}/gu, '')] ?? FONT['?']
+}
+
+/**
+ * Composes a line of text into one bitmap using the '#' character, ready for
+ * `toSvg` or `<PixelGlyph>` with a palette such as `{ '#': 'currentColor' }`.
+ */
+export function textToBitmap(text: string, { gap = 1 }: TextOptions = {}): Bitmap {
+  const glyphs = [...text.toUpperCase()].map(glyphOf)
+  const space = '.'.repeat(gap)
+  return Array.from({ length: FONT_HEIGHT }, (_, y) => glyphs.map((glyph) => glyph[y]).join(space))
 }
