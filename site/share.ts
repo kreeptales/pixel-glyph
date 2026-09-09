@@ -1,5 +1,8 @@
 import type { Drawing } from './presets'
 
+/** Longer query strings are refused by hosts on a cold load, so the link is dropped instead. */
+export const MAX_SHARE = 12_000
+
 /** The playground drawing lives in the `g` query parameter so a link restores it. The hash stays for navigation. */
 export function encode(drawing: Drawing): string {
   const bytes = new TextEncoder().encode(JSON.stringify(drawing))
@@ -26,8 +29,17 @@ export function readShared(): Drawing | null {
   return g ? decode(g) : null
 }
 
-export function writeShared(drawing: Drawing): void {
+/** Writes the drawing into the URL. Returns false, and removes any stale link, when it is too big to share. */
+export function writeShared(drawing: Drawing): boolean {
+  const encoded = encode(drawing)
   const url = new URL(location.href)
-  url.searchParams.set('g', encode(drawing))
-  history.replaceState(null, '', url)
+  const fits = encoded.length <= MAX_SHARE
+  if (fits) url.searchParams.set('g', encoded)
+  else url.searchParams.delete('g')
+  try {
+    history.replaceState(null, '', url)
+  } catch {
+    return false
+  }
+  return fits
 }

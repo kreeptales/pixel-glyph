@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { bitmapSize, toRuns, type Bitmap, type Palette } from '@kreeptales/pixel-glyph'
 import { PixelGlyph } from '@kreeptales/pixel-glyph/react'
 import { BULLET, MONO } from '../bitmaps/glyphs'
+import { toCanvas } from '../editing'
 import { BitmapText } from '../BitmapText'
 import { T, useT, type Key } from '../i18n'
 import { HEART } from '../presets'
@@ -27,17 +28,7 @@ function BoxShadowPixels({ bitmap, palette, unit }: { bitmap: Bitmap; palette: P
 /** A 1x PNG drawn on a canvas, then upscaled with image-rendering: pixelated. */
 function PngPixels({ bitmap, palette, unit }: { bitmap: Bitmap; palette: Palette; unit: number }) {
   const { cols, rows } = bitmapSize(bitmap)
-  const src = useMemo(() => {
-    const canvas = document.createElement('canvas')
-    canvas.width = cols
-    canvas.height = rows
-    const ctx = canvas.getContext('2d')!
-    for (const run of toRuns(bitmap, palette)) {
-      ctx.fillStyle = run.color
-      ctx.fillRect(run.x, run.y, run.width, 1)
-    }
-    return canvas.toDataURL()
-  }, [bitmap, palette, cols, rows])
+  const src = useMemo(() => toCanvas(bitmap, palette).toDataURL(), [bitmap, palette])
   return <img src={src} alt="" width={cols * unit} height={rows * unit} style={{ imageRendering: 'pixelated' }} />
 }
 
