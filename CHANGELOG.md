@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.0](https://github.com/kreeptales/pixel-glyph/compare/v0.1.1...v0.2.0) (2026-09-09)
+
+
+### Features
+
+* bitmap font entry (@kreeptales/pixel-glyph/font) ([846478c](https://github.com/kreeptales/pixel-glyph/commit/846478c31f08eb57df1ced4dc8bc89aefd139ed2))
+* bitmap font entry (@kreeptales/pixel-glyph/font) ([95c8ec7](https://github.com/kreeptales/pixel-glyph/commit/95c8ec73503773c663e2fc555b280e057c6db3dc))
+* pixel editor with PNG import and export in the playground ([a45e03a](https://github.com/kreeptales/pixel-glyph/commit/a45e03a5e52c605a4af991ba21e59baa8e766f9b))
+* pixel editor with PNG import and export in the playground ([bf87cac](https://github.com/kreeptales/pixel-glyph/commit/bf87cacb50c45008c5be1b5eb91edc5aa80e1f54))
+
 ## [0.1.1](https://github.com/kreeptales/pixel-glyph/compare/v0.1.0...v0.1.1) (2026-09-07)
 
 
