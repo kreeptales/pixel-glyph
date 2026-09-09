@@ -131,6 +131,23 @@ rectangle, so `var(--token)` is resolved where the glyph appears. Change the
 variables and the colors change; the bitmap stays the same. `currentColor`
 works too, for icons that should match the text around them.
 
+### Bitmap font
+
+The package ships a 5x7 dot-matrix font, so a heading can be a glyph too and
+scale with the same `unit` as your icons:
+
+```tsx
+import { textToBitmap } from '@kreeptales/pixel-glyph/font'
+import { PixelGlyph } from '@kreeptales/pixel-glyph/react'
+
+<PixelGlyph bitmap={textToBitmap('Hello')} palette={{ '#': 'currentColor' }} unit={3} label="Hello" />
+```
+
+`textToBitmap(text, { gap })` draws capital letters, the eñe, digits and basic
+punctuation, one pixel apart by default. Lowercase becomes capitals and accents
+are dropped, because a 7-row cell has no room for them, so pass the original
+text as the `label`. `FONT` exposes the glyphs and `FONT_HEIGHT` their height.
+
 ## Notes
 
 - The SVG is `display: inline-block` with the default baseline alignment, so it

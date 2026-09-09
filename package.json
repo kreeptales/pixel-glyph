@@ -18,7 +18,8 @@
     "icon",
     "react",
     "crisp-edges",
-    "retro"
+    "retro",
+    "font"
   ],
   "type": "module",
   "sideEffects": false,
@@ -37,6 +38,10 @@
     "./react": {
       "types": "./dist/react.d.ts",
       "default": "./dist/react.js"
+    },
+    "./font": {
+      "types": "./dist/font.d.ts",
+      "default": "./dist/font.js"
     }
   },
   "peerDependencies": {

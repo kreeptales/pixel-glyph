@@ -24,6 +24,9 @@
       ],
       "@kreeptales/pixel-glyph/react": [
         "./src/react.tsx"
+      ],
+      "@kreeptales/pixel-glyph/font": [
+        "./src/font.ts"
       ]
     },
     "types": [

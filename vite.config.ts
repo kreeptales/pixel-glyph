@@ -6,7 +6,7 @@ const here = (path: string) => fileURLToPath(new URL(path, import.meta.url))
 export default defineConfig({
   build: {
     lib: {
-      entry: { index: 'src/index.ts', react: 'src/react.tsx' },
+      entry: { index: 'src/index.ts', react: 'src/react.tsx', font: 'src/font.ts' },
       formats: ['es'],
     },
     rollupOptions: { external: ['react', 'react/jsx-runtime'] },
@@ -17,6 +17,7 @@ export default defineConfig({
     // Site tests import the library by its package name; resolve it from src/ (no dist/ in CI).
     alias: [
       { find: '@kreeptales/pixel-glyph/react', replacement: here('src/react.tsx') },
+      { find: '@kreeptales/pixel-glyph/font', replacement: here('src/font.ts') },
       { find: '@kreeptales/pixel-glyph', replacement: here('src/index.ts') },
     ],
   },
