@@ -46,10 +46,11 @@ src/            the library
   unit.ts       Unit, cssUnit, base styles, sizeStyle
   svg.ts        toSvg (core, no framework)
   react.tsx     <PixelGlyph> (the React entry)
+  font.ts       FONT, textToBitmap (the font entry)
   index.ts      public exports of the core
 site/           the docs site and playground (Vite, imports the library from src/)
   i18n.tsx      every visible string, in English and Spanish
-  bitmaps/      the site's own glyphs and the 5x7 font
+  bitmaps/      the site's own glyphs
 docs/           README screenshots
 scripts/        screenshot capture
 ```
@@ -96,9 +97,9 @@ scripts/        screenshot capture
 ## Releasing (maintainers)
 
 Releases are automated from the commit messages, so the prefixes matter:
-`fix:` bumps the patch version, `feat:` bumps the minor (while the package is
-below 1.0, `feat:` bumps the patch too), and a `!` after the type or a
-`BREAKING CHANGE:` footer bumps the major. `docs:`, `chore:`, `ci:`, `test:`
+`fix:` bumps the patch version, `feat:` bumps the minor, and a `!` after the
+type or a `BREAKING CHANGE:` footer bumps the major (below 1.0 that is a minor
+bump too). `docs:`, `chore:`, `ci:`, `test:`
 and `refactor:` do not create a release on their own.
 
 1. Every push to `main` updates a pull request titled `chore: release x.y.z`
